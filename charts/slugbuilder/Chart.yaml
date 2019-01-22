@@ -1,7 +1,7 @@
 name: slugbuilder
-home: https://github.com/teamhephy/slugbuilder
+home: https://github.com/drycc/slugbuilder
 version: <Will be populated by the ci before publishing the chart>
-description: Buildpack application builder for Deis Workflow.
+description: Buildpack application builder for Drycc Workflow.
 maintainers:
-  - name: Deis Team
-    email: engineering@deis.com
+  - name: Drycc Team
+    email: engineering@drycc.com

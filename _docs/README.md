@@ -1,1 +1,1 @@
-# deis-slugbuilder on Kubernetes
+# drycc-slugbuilder on Kubernetes

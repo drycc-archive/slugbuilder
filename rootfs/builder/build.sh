@@ -7,8 +7,8 @@ function sleep_before_exit {
 }
 trap sleep_before_exit EXIT
 
-[[ $DEIS_DEBUG ]] && set -x
-unset DEIS_DEBUG
+[[ $DRYCC_DEBUG ]] && set -x
+unset DRYCC_DEBUG
 app_dir=/app
 build_root=/tmp/build
 cache_root=/tmp/cache
@@ -122,7 +122,7 @@ fi
 
 ## Buildpack detection
 
-buildpacks=($buildpack_root/*)
+buildpacks=("${buildpack_rooti}/*")
 selected_buildpack=
 
 if [[ -n "$BUILDPACK_URL" ]]; then
