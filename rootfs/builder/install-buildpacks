@@ -32,11 +32,9 @@ download_buildpack https://github.com/heroku/heroku-buildpack-multi.git         
 download_buildpack https://github.com/heroku/heroku-buildpack-clojure.git        v82      02-clojure
 download_buildpack https://github.com/heroku/heroku-buildpack-go.git             v94      03-go
 download_buildpack https://github.com/heroku/heroku-buildpack-gradle.git         v27      04-gradle
-download_buildpack https://github.com/heroku/heroku-buildpack-grails.git         v21      05-grails 
-download_buildpack https://github.com/heroku/heroku-buildpack-java.git           v62      06-java
-download_buildpack https://github.com/heroku/heroku-buildpack-nodejs.git         v130     07-nodejs
-download_buildpack https://github.com/heroku/heroku-buildpack-php.git            v145     08-php   
-download_buildpack https://github.com/heroku/heroku-buildpack-play.git           v26      09-play
-download_buildpack https://github.com/heroku/heroku-buildpack-python.git         v144     10-python
-download_buildpack https://github.com/heroku/heroku-buildpack-ruby.git           v195     11-ruby
-download_buildpack https://github.com/heroku/heroku-buildpack-scala.git          v82      12-scala
+download_buildpack https://github.com/heroku/heroku-buildpack-java.git           v62      05-java
+download_buildpack https://github.com/heroku/heroku-buildpack-nodejs.git         v130     06-nodejs
+download_buildpack https://github.com/heroku/heroku-buildpack-php.git            v145     07-php   
+download_buildpack https://github.com/heroku/heroku-buildpack-python.git         v144     08-python
+download_buildpack https://github.com/heroku/heroku-buildpack-ruby.git           v195     09-ruby
+download_buildpack https://github.com/heroku/heroku-buildpack-scala.git          v82      10-scala

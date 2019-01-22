@@ -37,7 +37,6 @@ RUN chown -R slug:slug /app && \
     chown slug:slug /bin/get_object \
                     /bin/normalize_storage \
                     /bin/put_object \
-                    /bin/objstorage \
                     /bin/read_procfile_keys \
                     /bin/restore_cache \
                     /bin/store_cache

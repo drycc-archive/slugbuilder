@@ -4,4 +4,4 @@ cache_file=/tmp/cache.tgz
 source /bin/normalize_storage
 
 # Download the cache (which might not exist, hence || true to return zero exit code)
-mc cp minio/"${BUCKET}${CACHE_PATH}/cache.tgz" "$cache_file"
+mc cp minio/"${MINIO_BUCKET}/${CACHE_PATH}/cache.tgz" "$cache_file" &>/tmp/objstorage.log || true

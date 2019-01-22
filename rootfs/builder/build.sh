@@ -120,9 +120,9 @@ if [[ -f "$env_root/SSH_KEY" ]]; then
     chmod 600 ~/.ssh/config
 fi
 
+buildpacks=("$buildpack_root"/*)
 ## Buildpack detection
 
-buildpacks=("${buildpack_rooti}/*")
 selected_buildpack=
 
 if [[ -n "$BUILDPACK_URL" ]]; then
