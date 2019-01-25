@@ -1,3 +1,5 @@
+FROM minio/mc:RELEASE.2018-11-06T01-12-20Z as mc
+
 FROM heroku/heroku:18-build
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -30,9 +32,8 @@ RUN sed -i -e 's/^deb-src/#deb-src/' /etc/apt/sources.list && \
 
 ADD . /
 ENV PYTHONPATH $PYTHONPATH:/usr/local/lib/python3/site-packages
-ADD https://github.com/drycc/object-storage-cli/releases/download/v1.0.1/objstorage-v1.0.1-linux-amd64 /bin/objstorage
-RUN chmod +x /bin/objstorage && \
-    chown -R slug:slug /app && \
+COPY --from=mc /usr/bin/mc /bin/mc
+RUN chown -R slug:slug /app && \
     chown slug:slug /bin/get_object \
                     /bin/normalize_storage \
                     /bin/put_object \

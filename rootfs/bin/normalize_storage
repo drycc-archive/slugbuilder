@@ -1,10 +1,20 @@
-#!/usr/bin/env bash
-export BUCKET_FILE=/var/run/secrets/drycc/objectstore/creds/builder-bucket
-if [ "$BUILDER_STORAGE" == "minio" ]; then
-  MINIO_BUCKET_NAME=${MINIO_BUCKET:-git}
-  mkdir -p /app/objectstore/minio/
-  echo "$MINIO_BUCKET_NAME" > /app/objectstore/minio/builder-bucket
-  export BUCKET_FILE=/app/objectstore/minio/builder-bucket
-elif [ "$BUILDER_STORAGE" == "azure" ] || [ "$BUILDER_STORAGE" == "swift" ] ; then
-  export CONTAINER_FILE=/var/run/secrets/drycc/objectstore/creds/builder-container
+#!/usr/bin/env sh
+BUCKET_FILE="/var/run/secrets/drycc/objectstore/creds/builder-bucket"
+ACCESS_KEY_FILE="/var/run/secrets/drycc/objectstore/creds/accesskey"
+SECRET_KEY_FILE="/var/run/secrets/drycc/objectstore/creds/secretkey"
+
+if [ -f $BUCKET_FILE -a -f $ACCESS_KEY_FILE -a -f $SECRET_KEY_FILE ]; then
+  if [ -f $BUCKET_FILE ]; then
+    export BUCKET=$(cat "$BUCKET_FILE")
+  fi
+  if [ -f $ACCESS_KEY_FILE ]; then
+    export MINIO_ACCESS_KEY=$(cat "$ACCESS_KEY_FILE")
+  fi
+  if [ -f $SECRET_KEY_FILE ]; then
+    export MINIO_SECRET_KEY=$(cat "$SECRET_KEY_FILE")
+  fi
 fi
+
+export STORAGE_ENDPOINT=https://"${DRYCC_MINIO_SERVICE_HOST}:${DRYCC_MINIO_SERVICE_PORT}"
+
+mc config host add minio "${STORAGE_ENDPOINT}" "${MINIO_ACCESS_KEY}" "${MINIO_SECRET_KEY}"
