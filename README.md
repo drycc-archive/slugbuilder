@@ -1,6 +1,6 @@
 # Drycc Slugbuilder v2
 
-[![Build Status](https://ci.drycc.cc/job/slugbuilder/badge/icon)](https://ci.drycc.cc/job/slugbuilder)
+[![Build Status](https://travis-ci.org/drycc/slugbuilder.svg?branch=master)](https://travis-ci.org/drycc/slugbuilder)
 [![Docker Repository on Quay](https://quay.io/repository/drycc/slugbuilder/status "Docker Repository on Quay")](https://quay.io/repository/drycc/slugbuilder)
 
 Drycc (pronounced DAY-iss) Workflow is an open source Platform as a Service (PaaS) that adds a developer-friendly layer to any [Kubernetes](http://kubernetes.io) cluster, making it easy to deploy and manage applications on your own servers.
@@ -30,4 +30,3 @@ The Drycc project welcomes contributions from all developers. The high level pro
 [issues]: https://github.com/drycc/slugbuilder/issues
 [prs]: https://github.com/drycc/slugbuilder/pulls
 [s3-api]: http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html
-[v2.18]: https://github.com/drycc/workflow/releases/tag/v2.18.0
