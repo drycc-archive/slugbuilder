@@ -63,7 +63,7 @@ function ensure_indent() {
 }
 
 function cache_fingerprint() {
-  md5deep -r ${cache_root} | sort | uniq | md5sum
+  hashdeep -r ${cache_root} | sort | uniq | md5sum
 }
 
 # Restore cache when a $CACHE_PATH was supplied
@@ -96,7 +96,6 @@ export APP_DIR="$app_dir"
 export HOME="$app_dir"
 REQUEST_ID=$(openssl rand -base64 32)
 export REQUEST_ID
-export STACK=heroku-18
 
 ## copy the environment dir excluding the ephemeral ..data/ dir and other symlinks created by Kubernetes.
 secret_dir_file_list="$(ls -A $secret_dir)"

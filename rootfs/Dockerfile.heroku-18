@@ -2,6 +2,7 @@ FROM minio/mc:RELEASE.2018-11-06T01-12-20Z as mc
 
 FROM heroku/heroku:18-build
 
+ENV STACK heroku-18
 ENV DEBIAN_FRONTEND noninteractive
 RUN mkdir /app
 RUN addgroup --quiet --gid 2000 slug && \
@@ -10,7 +11,7 @@ RUN addgroup --quiet --gid 2000 slug && \
 # disable source repos (speeds up apt-get update)
 RUN sed -i -e 's/^deb-src/#deb-src/' /etc/apt/sources.list && \
     apt-get update && \
-    apt-get install -y md5deep && \
+    apt-get install -y hashdeep && \
     # cleanup
     apt-get autoremove -y && \
     apt-get clean -y && \
