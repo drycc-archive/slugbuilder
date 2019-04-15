@@ -66,6 +66,34 @@ function cache_fingerprint() {
   hashdeep -r ${cache_root} | sort | uniq | md5sum
 }
 
+function download_buildpack() {
+    BUILDPACK_URL=$1
+    buildpack=$2
+    url=${BUILDPACK_URL%#*}
+    committish=${BUILDPACK_URL#*#}
+
+    rm -fr "$buildpack"
+    if [ "$committish" == "$url" ]; then
+        committish="master"
+    fi
+    echo_title "Fetching buildpack $committish from: $url"
+
+    set +e
+    git clone --branch "$committish" --depth=1 "$url" "$buildpack" &> /dev/null
+    SHALLOW_CLONED=$?
+    set -e
+    if [ $SHALLOW_CLONED -ne 0 ]; then
+        # if the shallow clone failed partway through, clean up and try a full clone
+        rm -rf "$buildpack"
+        git clone --quiet "$url" "$buildpack"
+        pushd "$buildpack" &>/dev/null
+            git checkout --quiet "$committish"
+            git submodule init --quiet
+            git submodule update --quiet --recursive
+        popd &>/dev/null
+    fi
+}
+
 # Restore cache when a $CACHE_PATH was supplied
 if ! [[ -z "${CACHE_PATH}" ]]; then
   echo_title "Restoring cache..."
@@ -122,46 +150,45 @@ fi
 buildpacks=("$buildpack_root"/*)
 ## Buildpack detection
 
-selected_buildpack=
+selected_buildpacks=
 
 if [[ -n "$BUILDPACK_URL" ]]; then
-    echo_title "Fetching custom buildpack"
-
     buildpack="$buildpack_root/custom"
     rm -fr "$buildpack"
 
-    url=${BUILDPACK_URL%#*}
-    committish=${BUILDPACK_URL#*#}
-
-    if [ "$committish" == "$url" ]; then
-        committish="master"
-    fi
-
-    set +e
-    git clone --branch "$committish" --depth=1 "$url" "$buildpack" &> /dev/null
-    SHALLOW_CLONED=$?
-    set -e
-    if [ $SHALLOW_CLONED -ne 0 ]; then
-        # if the shallow clone failed partway through, clean up and try a full clone
-        rm -rf "$buildpack"
-        git clone --quiet "$url" "$buildpack"
-        pushd "$buildpack" &>/dev/null
-            git checkout --quiet "$committish"
-            git submodule init --quiet
-            git submodule update --quiet --recursive
-        popd &>/dev/null
-    fi
-
-    selected_buildpack="$buildpack"
-    buildpack_name=$("$buildpack/bin/detect" "$build_root") && selected_buildpack=$buildpack
+    download_buildpack "$BUILDPACK_URL" "$buildpack"
+    buildpack_names[0]=$("$buildpack/bin/detect" "$build_root") && selected_buildpacks[0]=$buildpack
+elif [ -f "$build_root/.buildpacks" ]; then
+    index=0
+    BUILDPACK_URL_LIST=$(cat "$build_root/.buildpacks")
+    for BUILDPACK_URL in $BUILDPACK_URL_LIST; do
+        if [[ "$BUILDPACK_URL" == http://* || "$BUILDPACK_URL" == https://* ]]; then
+            buildpack=$(mktemp -t buildpackXXXX)
+            rm -fr "$buildpack"
+            download_buildpack "$BUILDPACK_URL" "$buildpack"
+        else
+            buildpack="$buildpack_root/$BUILDPACK_URL"
+        fi
+        buildpack_names[index]=$("$buildpack/bin/detect" "$build_root") && selected_buildpacks[index]=$buildpack
+        if [[ -n "${selected_buildpacks[index]}" ]]; then
+            index=$((index + 1))
+        else
+            echo_title "Unable to select buildpack: $BUILDPACK_URL"
+            exit 1
+        fi
+    done
 else
+    index=0
     for buildpack in "${buildpacks[@]}"; do
-        buildpack_name=$("$buildpack/bin/detect" "$build_root") && selected_buildpack=$buildpack && break
+        buildpack_names[index]=$("$buildpack/bin/detect" "$build_root") && selected_buildpacks[index]=$buildpack
+        if [[ -n "${selected_buildpacks[index]}" ]]; then
+            index=$((index + 1))
+        fi
     done
 fi
 
-if [[ -n "$selected_buildpack" ]]; then
-    echo_title "$buildpack_name app detected"
+if [[ ${#selected_buildpacks[@]} -gt 0 ]]; then
+    echo_title "${buildpack_names[*]} app detected"
 else
     echo_title "Unable to select a buildpack"
     exit 1
@@ -176,8 +203,10 @@ if [[ -f "$build_root/bin/pre-compile" ]]; then
 fi
 
 ## Buildpack compile
-"$selected_buildpack/bin/compile" "$build_root" "$cache_root" "$env_root" | ensure_indent
-"$selected_buildpack/bin/release" "$build_root" > $build_root/.release
+for selected_buildpack in ${selected_buildpacks[*]}; do
+    "$selected_buildpack/bin/compile" "$build_root" "$cache_root" "$env_root" | ensure_indent
+    "$selected_buildpack/bin/release" "$build_root" > $build_root/.release
+done
 
 ## Run post-compile hook
 
@@ -197,7 +226,7 @@ fi
 default_types=""
 if [[ -s "$build_root/.release" ]]; then
     default_types=$(ruby -e "require 'yaml';puts ((YAML.load_file('$build_root/.release') || {})['default_process_types'] || {}).keys().join(', ')")
-    [[ $default_types ]] && echo_normal "Default process types for $buildpack_name -> $default_types"
+    [[ $default_types ]] && echo_normal "Default process types for ${buildpack_names[*]} -> $default_types"
 fi
 
 # Fix any wayward permissions. We want everything in app to be owned
@@ -251,6 +280,6 @@ if [[ "$slug_file" != "-" ]]; then
     echo_title "Compiled slug size is $slug_size"
 
     if [[ $PUT_PATH ]]; then
-			put_object
-		fi
+        put_object
+    fi
 fi
