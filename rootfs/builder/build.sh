@@ -152,13 +152,7 @@ buildpacks=("$buildpack_root"/*)
 
 selected_buildpacks=
 
-if [[ -n "$BUILDPACK_URL" ]]; then
-    buildpack="$buildpack_root/custom"
-    rm -fr "$buildpack"
-
-    download_buildpack "$BUILDPACK_URL" "$buildpack"
-    buildpack_names[0]=$("$buildpack/bin/detect" "$build_root") && selected_buildpacks[0]=$buildpack
-elif [ -f "$build_root/.buildpacks" ]; then
+if [ -f "$build_root/.buildpacks" ]; then
     index=0
     BUILDPACK_URL_LIST=$(cat "$build_root/.buildpacks")
     for BUILDPACK_URL in $BUILDPACK_URL_LIST; do
