@@ -1,4 +1,4 @@
-FROM minio/mc:RELEASE.2019-05-23T01-33-27Z as mc
+FROM minio/mc:RELEASE.2020-07-17T02-52-20Z as mc
 
 FROM heroku/heroku:18-build
 
@@ -35,12 +35,12 @@ ADD . /
 ENV PYTHONPATH $PYTHONPATH:/usr/local/lib/python3/site-packages
 COPY --from=mc /usr/bin/mc /bin/mc
 RUN chown -R slug:slug /app && \
-    chown slug:slug /bin/get_object \
-                    /bin/normalize_storage \
-                    /bin/put_object \
-                    /bin/read_procfile_keys \
-                    /bin/restore_cache \
-                    /bin/store_cache
+    chown slug:slug /usr/local/bin/get_object \
+                    /usr/local/bin/normalize_storage \
+                    /usr/local/bin/put_object \
+                    /usr/local/bin/read_procfile_keys \
+                    /usr/local/bin/restore_cache \
+                    /usr/local/bin/store_cache
 
 USER slug
 ENV HOME /app
