@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 cache_file=/tmp/cache.tgz
 # shellcheck disable=SC1091
-source /bin/normalize_storage
+source /usr/local/bin/normalize_storage
 mc cp "$cache_file" minio/"${MINIO_BUCKET}/${CACHE_PATH}/cache.tgz"

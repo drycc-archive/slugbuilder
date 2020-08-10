@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 GET_PATH=/tmp/slug.tgz
 # shellcheck disable=SC1091
-source /bin/normalize_storage
+source /usr/local/bin/normalize_storage
 mc cp minio/"${MINIO_BUCKET}/${TAR_PATH}" "${GET_PATH}"
