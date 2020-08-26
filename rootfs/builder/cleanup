@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+# cleanup
+apt-get autoremove -y
+apt-get clean -y
+# package up license files if any by appending to existing tar
+rm -rf \
+    /usr/share/doc \
+    /usr/share/man \
+    /usr/share/info \
+    /usr/share/locale \
+    /var/lib/apt/lists/* \
+    /var/log/* \
+    /var/cache/debconf/* \
+    /etc/systemd \
+    /lib/lsb \
+    /lib/udev \
+    /usr/lib/x86_64-linux-gnu/gconv/IBM* \
+    /usr/lib/x86_64-linux-gnu/gconv/EBC*
+bash -c "mkdir -p /usr/share/man/man{1..8}"

@@ -1,46 +1,14 @@
-FROM minio/mc:RELEASE.2020-07-17T02-52-20Z as mc
-
 FROM heroku/heroku:20-build
 
 ENV STACK heroku-20
+ENV CNB_STACK_ID heroku-20
 ENV DEBIAN_FRONTEND noninteractive
-RUN mkdir /app
-RUN addgroup --quiet --gid 2000 slug && \
-    useradd slug --uid=2000 --gid=2000 --home-dir /app --no-create-home
-
-# disable source repos (speeds up apt-get update)
-RUN sed -i -e 's/^deb-src/#deb-src/' /etc/apt/sources.list && \
-    apt-get update && \
-    apt-get install -y hashdeep && \
-    # cleanup
-    apt-get autoremove -y && \
-    apt-get clean -y && \
-    # package up license files if any by appending to existing tar
-    rm -rf \
-        /usr/share/doc \
-        /usr/share/man \
-        /usr/share/info \
-        /usr/share/locale \
-        /var/lib/apt/lists/* \
-        /var/log/* \
-        /var/cache/debconf/* \
-        /etc/systemd \
-        /lib/lsb \
-        /lib/udev \
-        /usr/lib/x86_64-linux-gnu/gconv/IBM* \
-        /usr/lib/x86_64-linux-gnu/gconv/EBC* && \
-    bash -c "mkdir -p /usr/share/man/man{1..8}"
+ENV PYTHONPATH $PYTHONPATH:/usr/local/lib/python3/site-packages
 
 ADD . /
-ENV PYTHONPATH $PYTHONPATH:/usr/local/lib/python3/site-packages
-COPY --from=mc /usr/bin/mc /bin/mc
-RUN chown -R slug:slug /app && \
-    chown slug:slug /usr/local/bin/get_object \
-                    /usr/local/bin/normalize_storage \
-                    /usr/local/bin/put_object \
-                    /usr/local/bin/read_procfile_keys \
-                    /usr/local/bin/restore_cache \
-                    /usr/local/bin/store_cache
+
+RUN /builder/install-tools \
+  && /builder/cleanup
 
 USER slug
 ENV HOME /app

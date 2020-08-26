@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+mkdir /app
+addgroup --quiet --gid 2000 slug
+useradd slug --uid=2000 --gid=2000 --home-dir /app --no-create-home
+
+apt-get update
+apt-get install -y hashdeep
+
+wget https://dl.min.io/client/mc/release/linux-amd64/mc -O /bin/mc
+chmod +x /bin/mc
+chown -R slug:slug /app
+chown slug:slug /usr/local/bin/get_object \
+                /usr/local/bin/normalize_storage \
+                /usr/local/bin/put_object \
+                /usr/local/bin/read_procfile_keys \
+                /usr/local/bin/restore_cache \
+                /usr/local/bin/store_cache
