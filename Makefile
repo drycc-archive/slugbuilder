@@ -12,6 +12,7 @@ include versioning.mk
 
 SHELL_SCRIPTS = $(wildcard _scripts/*.sh) \
 				$(wildcard rootfs/builder/*) \
+				$(wildcard rootfs/installer/*) \
 				rootfs/usr/local/bin/get_object \
 				rootfs/usr/local/bin/normalize_storage \
 				rootfs/usr/local/bin/put_object \

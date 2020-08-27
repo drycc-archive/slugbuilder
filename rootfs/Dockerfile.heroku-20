@@ -7,11 +7,9 @@ ENV PYTHONPATH $PYTHONPATH:/usr/local/lib/python3/site-packages
 
 ADD . /
 
-RUN /builder/install-tools \
-  && /builder/cleanup
+RUN /installer/install
 
 USER slug
 ENV HOME /app
-RUN /builder/install-buildpacks
 
 ENTRYPOINT ["/builder/build.sh"]

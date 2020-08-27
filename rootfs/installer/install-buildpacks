@@ -37,3 +37,5 @@ download_buildpack https://github.com/heroku/heroku-buildpack-php.git           
 download_buildpack https://github.com/heroku/heroku-buildpack-python.git         v174     python
 download_buildpack https://github.com/heroku/heroku-buildpack-ruby.git           v218     ruby
 download_buildpack https://github.com/heroku/heroku-buildpack-scala.git          v87      scala
+
+chown -R slug:slug $BUILDPACK_INSTALL_PATH
