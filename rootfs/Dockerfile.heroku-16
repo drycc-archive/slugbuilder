@@ -10,6 +10,7 @@ ADD . /
 RUN /installer/install
 
 USER slug
+WORKDIR /tmp
 ENV HOME /app
 
 ENTRYPOINT ["/builder/build.sh"]
