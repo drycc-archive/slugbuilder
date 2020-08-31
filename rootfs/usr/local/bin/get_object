@@ -2,4 +2,5 @@
 GET_PATH=/tmp/slug.tgz
 # shellcheck disable=SC1091
 source /usr/local/bin/normalize_storage
-mc cp minio/"${MINIO_BUCKET}/${TAR_PATH}" "${GET_PATH}"
+
+mc cp minio/"${MINIO_BUCKET}/${TAR_PATH}" "${GET_PATH}" &>/tmp/objstorage.log

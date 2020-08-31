@@ -5,5 +5,5 @@ PROC_PATH=/tmp/build/Procfile
 
 # shellcheck disable=SC1091
 source /usr/local/bin/normalize_storage
-mc cp "$SLUG_PATH" minio/"${MINIO_BUCKET}/${PUT_PATH}/slug.tgz"
-mc cp "$PROC_PATH" minio/"${MINIO_BUCKET}/${PUT_PATH}/Procfile"
+mc cp "$SLUG_PATH" minio/"${MINIO_BUCKET}/${PUT_PATH}/slug.tgz" &>/tmp/objstorage.log
+mc cp "$PROC_PATH" minio/"${MINIO_BUCKET}/${PUT_PATH}/Procfile" &>/tmp/objstorage.log
