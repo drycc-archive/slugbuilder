@@ -28,14 +28,14 @@ download_buildpack() {
 
 mkdir -p $BUILDPACK_INSTALL_PATH
 
-download_buildpack https://github.com/heroku/heroku-buildpack-clojure.git        v85      clojure
-download_buildpack https://github.com/heroku/heroku-buildpack-go.git             v144     go
-download_buildpack https://github.com/heroku/heroku-buildpack-gradle.git         v31      gradle
-download_buildpack https://github.com/heroku/heroku-buildpack-java.git           v66      java
-download_buildpack https://github.com/heroku/heroku-buildpack-nodejs.git         v174     nodejs
-download_buildpack https://github.com/heroku/heroku-buildpack-php.git            v178     php   
-download_buildpack https://github.com/heroku/heroku-buildpack-python.git         v174     python
-download_buildpack https://github.com/heroku/heroku-buildpack-ruby.git           v218     ruby
-download_buildpack https://github.com/heroku/heroku-buildpack-scala.git          v87      scala
+download_buildpack https://github.com/drycc/buildpack-clojure.git        main      clojure
+download_buildpack https://github.com/drycc/buildpack-go.git             main      go
+download_buildpack https://github.com/drycc/buildpack-gradle.git         main      gradle
+download_buildpack https://github.com/drycc/buildpack-java.git           main      java
+download_buildpack https://github.com/drycc/buildpack-nodejs.git         main      nodejs
+download_buildpack https://github.com/drycc/buildpack-php.git            main      php   
+download_buildpack https://github.com/drycc/buildpack-python.git         main      python
+download_buildpack https://github.com/drycc/buildpack-ruby.git           main      ruby
+download_buildpack https://github.com/drycc/buildpack-scala.git          main      scala
 
 chown -R slug:slug $BUILDPACK_INSTALL_PATH
