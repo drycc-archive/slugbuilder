@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-if [[ -r "/builder/pre-build.sh" ]]; then
-    /builder/pre-build.sh
-fi
-
 function sleep_before_exit {
     # delay before exiting, so stdout/stderr flushes through the logging system
     sleep 3

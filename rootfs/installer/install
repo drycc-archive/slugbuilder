@@ -4,9 +4,4 @@ set -eo pipefail
 /installer/adduser
 /installer/install-tools
 /installer/install-buildpacks
-
-if [[ -r "/installer/patch-install" ]]; then
-  /installer/patch-install
-fi
-
 /installer/cleanup
