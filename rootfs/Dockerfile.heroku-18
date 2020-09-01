@@ -1,4 +1,4 @@
-FROM heroku/heroku:18-build
+FROM drycc/stack-images:18-build
 
 ENV STACK heroku-18
 ENV CNB_STACK_ID heroku-18
