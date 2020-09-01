@@ -6,7 +6,7 @@ script:
   - export STACK=heroku-18
   - make docker-build
   - make test
-  - export STACK=heroku-16
+  - export STACK=heroku-20
   - make docker-build
   - make test
 notifications:
