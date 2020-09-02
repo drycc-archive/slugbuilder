@@ -1,7 +1,6 @@
 FROM drycc/stack-images:18-build
 
 ENV STACK heroku-18
-ENV CNB_STACK_ID heroku-18
 ENV DEBIAN_FRONTEND noninteractive
 ENV PYTHONPATH $PYTHONPATH:/usr/local/lib/python3/site-packages
 
