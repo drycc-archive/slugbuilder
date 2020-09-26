@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 BUCKET_FILE="/var/run/secrets/drycc/objectstore/creds/builder-bucket"
 ACCESS_KEY_FILE="/var/run/secrets/drycc/objectstore/creds/accesskey"
 SECRET_KEY_FILE="/var/run/secrets/drycc/objectstore/creds/secretkey"
