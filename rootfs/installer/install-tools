@@ -4,8 +4,6 @@ set -eo pipefail
 apt-get update
 apt-get install -y hashdeep
 
-wget https://dl.min.io/client/mc/release/linux-amd64/mc -O /bin/mc
-chmod +x /bin/mc
 chown -R slug:slug /app
 chown slug:slug /usr/local/bin/get_object \
                 /usr/local/bin/normalize_storage \
