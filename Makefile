@@ -1,4 +1,5 @@
 SHORT_NAME ?= slugbuilder
+PLATFORM ?= linux/amd64,linux/arm64
 
 export GO15VENDOREXPERIMENT=1
 
@@ -37,6 +38,9 @@ build:
 docker-build:
 	docker build ${DOCKER_BUILD_FLAGS} -t ${IMAGE} -f rootfs/Dockerfile.${STACK} rootfs
 	docker tag ${IMAGE} ${MUTABLE_IMAGE}
+
+docker-buildx:
+	docker buildx build --platform ${PLATFORM} ${DOCKER_BUILD_FLAGS} -t ${IMAGE} -f rootfs/Dockerfile.${STACK} rootfs --push
 
 deploy: docker-build docker-push
 
