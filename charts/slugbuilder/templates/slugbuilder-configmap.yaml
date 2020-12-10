@@ -9,11 +9,11 @@ data:
     [
         {
             "name": "heroku-18",
-            "image": "{{.Values.docker_registry}}{{.Values.org}}/slugbuilder:{{.Values.docker_tag}}.heroku-18"
+            "image": "{{.Values.image_registry}}{{.Values.org}}/slugbuilder:{{.Values.image_tag}}.heroku-18"
         },
         {
             "name": "heroku-20",
-            "image": "{{.Values.docker_registry}}{{.Values.org}}/slugbuilder:{{.Values.docker_tag}}.heroku-20"
+            "image": "{{.Values.image_registry}}{{.Values.org}}/slugbuilder:{{.Values.image_tag}}.heroku-20"
         }
     ]
-  pull_policy: {{ .Values.pull_policy }}
+  image_pull_policy: {{ .Values.image_pull_policy }}
