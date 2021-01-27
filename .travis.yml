@@ -4,11 +4,11 @@ services:
   - docker
 script:
   - export STACK=heroku-18
-  - make docker-build
-  - make test
+  - DEV_REGISTRY="docker.io" make docker-build
+  - DEV_REGISTRY="docker.io" make test
   - export STACK=heroku-20
-  - make docker-build
-  - make test
+  - DEV_REGISTRY="docker.io" make docker-build
+  - DEV_REGISTRY="docker.io" make test
 notifications:
   slack:
     rooms:
