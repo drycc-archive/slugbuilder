@@ -1,9 +1,11 @@
+ARG STACK
+
 FROM docker.io/minio/mc:latest as mc
 
 
-FROM docker.io/drycc/stack-images:20-build
+FROM docker.io/drycc/stack-images:${STACK}-build
 
-ENV STACK heroku-20
+ENV STACK heroku-${STACK}
 ENV DEBIAN_FRONTEND noninteractive
 ENV PYTHONPATH $PYTHONPATH:/usr/local/lib/python3/site-packages
 
